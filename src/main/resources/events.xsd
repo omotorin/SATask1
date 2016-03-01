@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="events" type="eventsType"/>
+  <xs:complexType name="eventsType">
+    <xs:sequence>
+      <xs:element type="eventType" name="event" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="eventType">
+    <xs:sequence>
+      <xs:element type="xs:string" name="name"/>
+      <xs:element type="xs:dateTime" name="dateTime"/>
+      <xs:element type="xs:float" name="ticketPrice"/>
+      <xs:element name="rating">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="HIGH"/>
+            <xs:enumeration value="MID"/>
+            <xs:enumeration value="LOW"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

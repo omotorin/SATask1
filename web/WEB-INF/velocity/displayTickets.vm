@@ -1,0 +1,34 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Tickets</title>
+</head>
+<body>
+#if($tickets)
+    <h1>Tickets</h1>
+    <table border="1px" cellpadding="8px">
+        <tr>
+            <td>Event</td>
+            <td>Auditorium</td>
+            <td>Seat</td>
+            <td>Price</td>
+        </tr>
+        #foreach($ticket in $tickets)
+        <tr>
+            <td>$ticket.event.name</td>
+            <td>$ticket.event.auditorium.name</td>
+            <td>$ticket.seat.number</td>
+            <td>$ticket.price</td>
+        </tr>
+        #end
+    </table>
+    <hr/>
+<form method="get" action="/spadv/tickets">
+    <input type="hidden" name="userId" value="$userId">
+    <input type="submit" name="pdf" value="View as PDF"/>
+</form>
+#else
+    <h1>Sorry, no booked tickets!</h1>
+#end
+</body>
+</html>

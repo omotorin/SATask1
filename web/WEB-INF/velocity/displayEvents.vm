@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Events</title>
+</head>
+<body>
+#if($events)
+    <h1>Events</h1>
+    <table border="1px" cellpadding="8px">
+        <tr>
+            <td>Name</td>
+            <td>Date and time</td>
+            <td>Ticket price</td>
+            <td>Rating</td>
+            <td>Auditorium</td>
+        </tr>
+        #foreach($event in $events)
+            <tr>
+            <td><a href="id/$event.id">$event.name</a></td>
+            <td>$event.dateTime</td>
+            <td>$event.ticketPrice</td>
+            <td>$event.rating</td>
+            <td>#if($event.auditorium.name)$event.auditorium.name#end</td>
+            </tr>
+        #end
+    </table>
+    <hr/>
+#else
+    <h1>Sorry, no events!</h1>
+    <a href="/spadv">Home</a>
+#end
+</body>
+</html>

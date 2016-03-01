@@ -1,0 +1,14 @@
+<events>
+  <event>
+    <name>event1</name>
+    <dateTime>2016-03-08T10:00:00</dateTime>
+    <ticketPrice>1000</ticketPrice>
+    <rating>HIGH</rating>
+  </event>
+  <event>
+    <name>event2</name>
+    <dateTime>2016-04-01T11:00:00</dateTime>
+    <ticketPrice>1500</ticketPrice>
+    <rating>MID</rating>
+  </event>
+</events>

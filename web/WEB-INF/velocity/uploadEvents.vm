@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Upload events</title>
+</head>
+<body>
+<h1>Upload events</h1>
+#if($msg)
+    $msg
+#else
+<form method="post" enctype="multipart/form-data" action="uploadEvents">
+    File to upload: <input type="file" name="file" accept="application/xml"><br/><br/>
+    <input type="submit" value="Upload">
+</form>
+#end
+<hr/>
+<a href="/spadv">HOME</a>
+</body>
+</html>

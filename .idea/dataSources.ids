@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="HSQLDB" uuid="2a0fde0d-5d4f-408c-8d36-1d271c7b2e01">
+    <database-info product="HSQL Database Engine" version="2.3.2" jdbc-version="4.0" driver-name="HSQL Database Engine Driver" driver-version="2.3.2">
+      <identifier-quote-string>&quot;</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="upper" quoted-identifiers="exact"/>
+    <schema name="PUBLIC" catalog="PUBLIC"/>
+    <table name="COUNTERS" schema="PUBLIC" catalog="PUBLIC" type="TABLE">
+      <column name="ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="VARCHAR" precision="256" scale="0" nullable="false" jdbcType="12"/>
+      <column name="COUNTER" sqlType="INTEGER" precision="32" scale="0" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key name="SYS_PK_10135" columns="ID"/>
+    </table>
+    <table name="EVENT" schema="PUBLIC" catalog="PUBLIC" type="TABLE">
+      <column name="ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="VARCHAR" precision="256" scale="0" nullable="false" jdbcType="12"/>
+      <column name="DATE" sqlType="TIMESTAMP" precision="26" scale="0" nullable="true" jdbcType="93" def="TlVMTA=="/>
+      <column name="TICKETPRICE" sqlType="DOUBLE" precision="64" scale="0" nullable="true" jdbcType="8" def="TlVMTA=="/>
+      <column name="RATING" sqlType="INTEGER" precision="32" scale="0" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <column name="AUDITORIUM_ID" sqlType="INTEGER" precision="32" scale="0" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key name="SYS_PK_10101" columns="ID"/>
+    </table>
+    <table name="TICKET" schema="PUBLIC" catalog="PUBLIC" type="TABLE">
+      <column name="ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PRICE" sqlType="DOUBLE" precision="64" scale="0" nullable="false" jdbcType="8"/>
+      <column name="SEAT" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EVENT_ID" sqlType="INTEGER" precision="32" scale="0" nullable="true" jdbcType="4" def="TlVMTA=="/>
+      <primary-key name="SYS_PK_10107" columns="ID"/>
+      <foreign-key name="FK_EVENT_ID" columns="EVENT_ID" ref-table="EVENT" ref-schema="PUBLIC" ref-catalog="PUBLIC" ref-columns="ID" update-rule="3" delete-rule="3"/>
+    </table>
+    <table name="TICKETS" schema="PUBLIC" catalog="PUBLIC" type="TABLE">
+      <column name="ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="USER_ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TICKET_ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="SYS_PK_10123" columns="ID"/>
+      <foreign-key name="FK_TICKET_ID" columns="TICKET_ID" ref-table="TICKET" ref-schema="PUBLIC" ref-catalog="PUBLIC" ref-columns="ID" update-rule="3" delete-rule="3"/>
+      <foreign-key name="FK_USER_ID" columns="USER_ID" ref-table="USER" ref-schema="PUBLIC" ref-catalog="PUBLIC" ref-columns="ID" update-rule="3" delete-rule="3"/>
+    </table>
+    <table name="USER" schema="PUBLIC" catalog="PUBLIC" type="TABLE">
+      <column name="ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="VARCHAR" precision="256" scale="0" nullable="false" jdbcType="12"/>
+      <column name="EMAIL" sqlType="VARCHAR" precision="256" scale="0" nullable="true" jdbcType="12" def="J05VTEwn"/>
+      <column name="BIRTHDAY" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91" def="TlVMTA=="/>
+      <primary-key name="SYS_PK_10117" columns="ID"/>
+    </table>
+    <table name="WINS" schema="PUBLIC" catalog="PUBLIC" type="TABLE">
+      <column name="ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="USER_ID" sqlType="INTEGER" precision="32" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="TIMESTAMP" precision="26" scale="0" nullable="false" jdbcType="93"/>
+      <primary-key name="SYS_PK_10141" columns="ID"/>
+      <foreign-key name="FKW_USER_ID" columns="USER_ID" ref-table="USER" ref-schema="PUBLIC" ref-catalog="PUBLIC" ref-columns="ID" update-rule="3" delete-rule="3"/>
+    </table>
+  </data-source>
+</component>

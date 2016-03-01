@@ -1,0 +1,16 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Find user</h1>
+<form method="post" action="findUser">
+    <input type="text" name="searchField" required><br/>
+    Find by:
+    <input type="radio" name="findBy" value="name" required>user name
+    <input type="radio" name="findBy" value="email" required>e-mail<br/>
+    <input type="submit" value="Find">
+</form>
+</body>
+</html>

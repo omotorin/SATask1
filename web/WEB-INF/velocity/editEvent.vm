@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Add event</title>
+</head>
+<body>
+<form method="post" action="events/create">
+    Name: <input type="text" name="name" required/><br/>
+    Date and time: <input type="datetime-local" name="dateTime" required/><br/>
+    Ticket price: <input type="number" name="ticketPrice" required/><br/>
+    Rating: <select name="rating" required>
+    <option value="HIGH">HIGH</option>
+    <option value="MID">MID</option>
+    <option value="LOW">LOW</option>
+</select>
+    <input type="submit" value="Register"/><br/>
+</form>
+</body>
+</html>

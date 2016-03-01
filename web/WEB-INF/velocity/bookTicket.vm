@@ -1,0 +1,31 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Book ticket</title>
+</head>
+<body>
+<h1>Book ticket</h1>
+<form name="form1" method="post" action="/spadv/users/id/$userId/book">
+    Event:<select name="eventId" onchange="form1.submit();">
+    <option disabled selected> -- select an event -- </option>
+    #foreach($event in $events)
+        <option value="$event.id" #if($eventId==$event.id)selected#end>$event.name</option>
+    #end
+    </select><br/>
+    #if($eventId)
+        #if($auditorium)
+            <h2>Auditorium: $auditorium.name</h2>
+            Seat:<select name="seatNumber">
+                    <option disabled selected> -- select a seat -- </option>
+                    #foreach($seat in $auditorium.seats)
+                    <option value="$seat.number">$seat.number#if($seat.vip) VIP#end</option>
+                    #end
+                 </select>
+            <input type="submit" value="Book ticket">
+        #else
+            <h2>Sorry, this event not assigned to auditorium yet. Please <a href="/spadv/events/id/$eventId">assign</a> first</h2>
+        #end
+    #end
+</form>
+</body>
+</html>

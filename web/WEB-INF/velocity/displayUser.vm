@@ -1,0 +1,21 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+#if($user)
+<h1>User details</h1>
+Name: $user.name<br/>
+E-mail: $user.email<br/>
+Birthday: $user.birthday<br/>
+<hr/>
+<a href="/spadv">Home</a>
+<a href="/spadv/users/id/$user.id/tickets">Show booked tickets</a>
+<a href="/spadv/users/id/$user.id/delete">Delete user</a><br/>
+<a href="/spadv/users/id/$user.id/book">Book ticket</a>
+#else
+<h1>Sorry, user not found!</h1>
+#end
+</body>
+</html>

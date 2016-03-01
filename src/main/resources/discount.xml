@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="birthDayStrategy" class="kz.epam.spadv.service.BirthDayDiscountStrategy"/>
+    <bean id="tenTicketStrategy" class="kz.epam.spadv.service.TenTicketDiscountStrategy"/>
+
+    <bean id="discountService" class="kz.epam.spadv.service.DiscountServiceImpl">
+        <constructor-arg>
+            <list>
+                <ref bean="birthDayStrategy"/>
+                <ref bean="tenTicketStrategy"/>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>

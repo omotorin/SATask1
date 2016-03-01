@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <ticket/>
+    <tickets/>
+    <wins/>
+    <counters/>
+
+    <user id="0" name="user1" email="email1" birthday="1978-08-12"/>
+    <user id="1" name="user2" email="email2" birthday="1978-08-13"/>
+    <user id="2" name="user3" email="email3" birthday="1978-08-14"/>
+
+    <event id="0" name="event1" rating="1" ticketPrice="100.0"/>
+    <event id="1" name="event2" rating="1" ticketPrice="100.0"/>
+
+</dataset>

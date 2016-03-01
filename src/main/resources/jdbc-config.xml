@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd   http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource"/>
+    </bean>
+
+    <jdbc:embedded-database id="dataSource" type="HSQL">
+        <jdbc:script location="classpath:db/create_tables.sql"/>
+    </jdbc:embedded-database>
+
+    <!-- Configure HSQLDB to prevent warnings when executing tests: -->
+    <!-- WARN: Potential problem found: The configured data type factory
+     'class org.dbunit.dataset.datatype.DefaultDataTypeFactory' might cause problems
+      with the current database 'HSQL Database Engine' (e.g. some datatypes may not be supported properly).
+    -->
+    <bean id="dbUnitDatabaseConfig" class="com.github.springtestdbunit.bean.DatabaseConfigBean">
+        <property name="datatypeFactory">
+            <bean class="org.dbunit.ext.hsqldb.HsqldbDataTypeFactory"/>
+        </property>
+    </bean>
+    <bean id="dbUnitDatabaseConnection"
+          class="com.github.springtestdbunit.bean.DatabaseDataSourceConnectionFactoryBean">
+        <property name="databaseConfig" ref="dbUnitDatabaseConfig"/>
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+</beans>

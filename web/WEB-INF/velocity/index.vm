@@ -1,0 +1,13 @@
+<html>
+<head><title>Home page</title></head>
+<body>
+<h1>Welcome!</h1>
+<a href="/spadv/users?new">Add user</a>
+<a href="/spadv/findUser">Find user</a>
+<a href="/spadv/uploadUsers">Upload users</a>
+<hr/>
+<a href="/spadv/events?new">Add event</a>
+<a href="/spadv/findEvent">Find event</a>
+<a href="/spadv/uploadEvents">Upload events</a>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <ticket/>
+    <tickets/>
+    <wins/>
+    <user/>
+    <event/>
+
+    <counters id="0" name="counter1" counter="2"/>
+    <counters id="1" name="counter2" counter="0"/>
+
+</dataset>

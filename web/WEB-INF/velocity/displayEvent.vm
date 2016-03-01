@@ -1,0 +1,38 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Event details</title>
+</head>
+<body>
+#if($deleted)
+    Event sucessfully deleted!
+#elseif($event)
+    <h1>Event details</h1>
+    Name: $event.name<br/>
+    Date and time: $event.dateTime<br/>
+    Ticket price: $event.ticketPrice<br/>
+    Rating: $event.rating<br/>
+    Auditorium: #if($event.auditorium.name)$event.auditorium.name
+#else
+    <form method="post" action="/spadv/events/id/$event.id/assign">
+        <select name="auditoriumId">
+            #foreach($auditorium in $auditoriums)
+                <option value="$auditorium.id">$auditorium.name</option>
+            #end
+        </select>
+        <input type="submit" value="Assign auditorium">
+    </form>
+#end
+    <br/>
+    <hr/>
+    <form name="form1" method="post" action="id/$event.id/delete">
+        <a href="/spadv">Home</a>
+        #if(!$deleted)
+            <a href="#" onclick="form1.submit();">Delete event</a>
+        #end
+    </form>
+    #else
+    <h1>Sorry, event not found!</h1>
+    #end
+</body>
+</html>

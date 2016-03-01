@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="auditorium1" class="kz.epam.spadv.domain.Auditorium">
+        <constructor-arg value="1"/>
+        <constructor-arg value="${auditorium1.name}"/>
+        <constructor-arg value="${auditorium1.number_of_seats}"/>
+        <constructor-arg value="${auditorium1.vip_seats}"/>
+    </bean>
+
+    <bean id="auditorium2" class="kz.epam.spadv.domain.Auditorium">
+        <constructor-arg value="2"/>
+        <constructor-arg value="${auditorium2.name}"/>
+        <constructor-arg value="${auditorium2.number_of_seats}"/>
+        <constructor-arg value="${auditorium2.vip_seats}"/>
+    </bean>
+
+    <bean id="auditorium3" class="kz.epam.spadv.domain.Auditorium">
+        <constructor-arg value="3"/>
+        <constructor-arg value="${auditorium3.name}"/>
+        <constructor-arg value="${auditorium3.number_of_seats}"/>
+        <constructor-arg value="${auditorium3.vip_seats}"/>
+    </bean>
+
+
+    <util:map id="auditoriums">
+        <entry key="1" value-ref="auditorium1"/>
+        <entry key="2" value-ref="auditorium2"/>
+        <entry key="3" value-ref="auditorium3"/>
+    </util:map>
+
+</beans>

@@ -1,0 +1,14 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Find event</h1>
+<form method="get" action="events/find">
+    <input type="text" name="name" required><br/>
+    <input type="submit" value="Find">
+</form>
+<a href="events/all">View all events</a>
+</body>
+</html>
