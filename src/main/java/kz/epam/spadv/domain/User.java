@@ -1,6 +1,7 @@
 package kz.epam.spadv.domain;
 
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by Oleg_Motorin on 21.10.2015.
@@ -11,6 +12,8 @@ public class User {
     private String name;
     private String email;
     private LocalDate birthday;
+    private String password;
+    private List<Role> roles;
 
     public User(String name, String email) {
         this.name = name;
