@@ -27,7 +27,21 @@ CREATE TABLE PUBLIC.user (
   id       INT PRIMARY KEY NOT NULL IDENTITY,
   name     VARCHAR(256) NOT NULL,
   email    VARCHAR(256) DEFAULT NULL,
-  birthday DATE         DEFAULT NULL
+  birthday DATE         DEFAULT NULL,
+  password VARCHAR(32)
+);
+
+CREATE TABLE PUBLIC.role (
+  id       INT PRIMARY KEY NOT NULL IDENTITY,
+  name     VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE PUBLIC.roles(
+  id        INT PRIMARY KEY NOT NULL IDENTITY,
+  user_id   INT NOT NULL,
+  role_id INT NOT NULL,
+  CONSTRAINT FK_ROLE_ID FOREIGN KEY (role_id) REFERENCES role (id),
+  CONSTRAINT FK_USER_ROLE_ID FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE PUBLIC.tickets (
@@ -50,3 +64,10 @@ CREATE TABLE PUBLIC.wins (
   date    DATETIME NOT NULL,
   CONSTRAINT FKW_USER_ID FOREIGN KEY (user_id) REFERENCES user (id)
 );
+
+INSERT INTO role(id,name) VALUES (0,'REGISTERED_USER');
+INSERT INTO role(id,name) VALUES (1,'BOOKING_MANAGER');
+
+INSERT INTO user(id,name, email, birthday, password) VALUES (0,'Oleg','oleg.motorin@gmail.com',date'1978-12-08','1234');
+
+INSERT INTO roles(user_id, role_id) VALUES (0,0);

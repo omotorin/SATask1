@@ -1,7 +1,8 @@
 package kz.epam.spadv.repository;
 
-import kz.epam.spadv.utils.Convert;
+import kz.epam.spadv.domain.Role;
 import kz.epam.spadv.domain.User;
+import kz.epam.spadv.utils.Convert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +28,12 @@ public class JdbcUserRepository implements UserRepository {
     private static final String SELECT_BY_USER_NAME = "SELECT * FROM user WHERE name=?";
     private static final String DELETE_TICKETS = "DELETE FROM tickets WHERE user_id = ?";
     private static final String DELETE_USER = "DELETE FROM user WHERE id=?";
+    private static final String DELETE_USER_ROLE = "DELETE FROM roles WHERE user_id=?";
     private static final String SELECT_ALL = "SELECT * FROM user";
+    private static final String SELECT_USER_ROLES =
+                    "select * from role r\n"+
+                    "join roles rs on rs.role_id = r.id\n"+
+                    "where user_id=?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -74,6 +81,7 @@ public class JdbcUserRepository implements UserRepository {
     public void delete(long id) {
         winsRepository.delete(id);
         jdbcTemplate.update(DELETE_TICKETS, id);
+        jdbcTemplate.update(DELETE_USER_ROLE, id);
         jdbcTemplate.update(DELETE_USER, id);
     }
 
@@ -82,6 +90,7 @@ public class JdbcUserRepository implements UserRepository {
         User u;
         try {
             u = jdbcTemplate.queryForObject(SELECT_BY_USER_ID, new UserMapper(), id);
+            u.setRoles(getRoles(u.getId()));
         } catch (EmptyResultDataAccessException ex) {
             u = null;
         }
@@ -93,6 +102,7 @@ public class JdbcUserRepository implements UserRepository {
         User u;
         try {
             u = jdbcTemplate.queryForObject(SELECT_BY_USER_EMAIL, new UserMapper(), email);
+            u.setRoles(getRoles(u.getId()));
         } catch (EmptyResultDataAccessException ex) {
             u = null;
         }
@@ -104,6 +114,7 @@ public class JdbcUserRepository implements UserRepository {
         User u;
         try {
             u = jdbcTemplate.queryForObject(SELECT_BY_USER_NAME, new UserMapper(), name);
+            u.setRoles(getRoles(u.getId()));
         } catch (EmptyResultDataAccessException ex) {
             u = null;
         }
@@ -114,6 +125,11 @@ public class JdbcUserRepository implements UserRepository {
     public Collection<User> getAll() {
         Collection<User> users = jdbcTemplate.query(SELECT_ALL, new UserMapper());
         return users;
+    }
+
+    private List<Role> getRoles(long userId){
+        List<Role> roles = jdbcTemplate.query(SELECT_USER_ROLES, new RoleMapper(), userId);
+        return roles;
     }
 
     private static final class UserMapper implements RowMapper<User> {
@@ -127,8 +143,19 @@ public class JdbcUserRepository implements UserRepository {
                     rs.getString(3),
                     date!=null ? date.toLocalDate() : null
             );
+            u.setPassword(rs.getString(5));
 
             return u;
+        }
+    }
+
+    private static final class RoleMapper implements RowMapper<Role>{
+
+        @Override public Role mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Role role = new Role();
+            role.setId(rs.getInt(1));
+            role.setName(rs.getString(2));
+            return role;
         }
     }
 }

@@ -1,18 +1,26 @@
 package kz.epam.spadv.service;
 
-import kz.epam.spadv.repository.TicketRepository;
+import kz.epam.spadv.domain.Role;
 import kz.epam.spadv.domain.Ticket;
 import kz.epam.spadv.domain.User;
+import kz.epam.spadv.repository.TicketRepository;
 import kz.epam.spadv.repository.UserRepository;
 import kz.epam.spadv.repository.WinsRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -91,6 +99,26 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if(user==null){
             throw new UsernameNotFoundException("No user found with username: " + userName);
         }
-        return (UserDetails) user;
+        boolean enabled = true;
+        boolean accountNonExpired = true;
+        boolean credentialsNonExpired = true;
+        boolean accountNonLocked = true;
+
+        UserDetails userDetails =  new org.springframework.security.core.userdetails.User(user.getName(),user.getPassword(),enabled,accountNonExpired, credentialsNonExpired,accountNonLocked,
+                getGrantedAuthorities(user.getRoles()));
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return userDetails;
+    }
+
+    public List<GrantedAuthority> getGrantedAuthorities(List<Role> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return authorities;
     }
 }
