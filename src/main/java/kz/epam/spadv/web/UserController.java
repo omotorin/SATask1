@@ -8,6 +8,7 @@ import kz.epam.spadv.service.exception.TicketAlreadyBookedException;
 import kz.epam.spadv.service.exception.TicketWithoutEventException;
 import kz.epam.spadv.service.exception.UserNotRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,11 @@ import java.util.Collection;
     @Autowired
     private BookingService bookingService;
 
+    @PreAuthorize("hasRole('BOOKING_MANAGER')")
     @RequestMapping(method = RequestMethod.GET, params = "new")
     public String create(Model model) {
         model.addAttribute(new User());
-        return "/WEB-INF/velocity/editUser.vm";
+        return "editUser";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")

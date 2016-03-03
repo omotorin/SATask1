@@ -11,9 +11,11 @@ E-mail: $user.email<br/>
 Birthday: $user.birthday<br/>
 <hr/>
 <a href="/spadv">Home</a>
-<a href="/spadv/users/id/$user.id/tickets">Show booked tickets</a>
-<a href="/spadv/users/id/$user.id/delete">Delete user</a><br/>
-<a href="/spadv/users/id/$user.id/book">Book ticket</a>
+    #if($authz.allGranted("BOOKING_MANAGER"))
+        <a href="/spadv/users/id/$user.id/delete">Delete user</a><br/>
+        <a href="/spadv/users/id/$user.id/book">Book ticket</a>
+        <a href="/spadv/users/id/$user.id/tickets">Show booked tickets</a>
+    #end
 #else
 <h1>Sorry, user not found!</h1>
 #end

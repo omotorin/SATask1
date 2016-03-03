@@ -7,6 +7,7 @@ import kz.epam.spadv.service.Rating;
 import kz.epam.spadv.service.exception.AuditoriumAlreadyAssignedException;
 import kz.epam.spadv.service.exception.EventNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,6 +24,7 @@ public class EventController {
     @Autowired private EventService eventService;
     @Autowired private AuditoriumRepository auditoriumRepository;
 
+    @PreAuthorize("hasRole('BOOKING_MANAGER')")
     @RequestMapping(params = "new")
     public String addEvent(){
         return "editEvent";

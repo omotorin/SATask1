@@ -2,12 +2,15 @@
 <head><title>Home page</title></head>
 <body>
 <h1>Welcome!</h1>
-<a href="/spadv/users?new">Add user</a>
+#set($bm = $authz.allGranted("BOOKING_MANAGER"))
+#if($bm)<a href="/spadv/users?new">Add user</a>&nbsp;#end
 <a href="/spadv/findUser">Find user</a>
-<a href="/spadv/uploadUsers">Upload users</a>
+#if($bm)<a href="/spadv/uploadUsers">Upload users</a>#end
 <hr/>
-<a href="/spadv/events?new">Add event</a>
+#if($bm)<a href="/spadv/events?new">Add event</a>&nbsp;#end
 <a href="/spadv/findEvent">Find event</a>
-<a href="/spadv/uploadEvents">Upload events</a>
+#if($bm)<a href="/spadv/uploadEvents">Upload events</a>#end
+<hr/>
+<a href="/spadv/logout">Logout</a>
 </body>
 </html>

@@ -5,15 +5,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
     <http auto-config="true" use-expressions="true">
-        <intercept-url pattern="velocity/login.vm"/>
+        <intercept-url pattern="/upload*" access="hasRole('BOOKING_MANAGER')"/>
+        <intercept-url pattern="/users/id/*/**" access="hasRole('BOOKING_MANAGER')"/>
+        <intercept-url pattern="/events/id/*/**" access="hasRole('BOOKING_MANAGER')"/>
+        <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/**" access="hasRole('REGISTERED_USER')"/>
-        <intercept-url pattern="/**/users/id/**" access="hasRole('BOOKING_MANAGER')"/>
+        <form-login login-page="/login" default-target-url="/index"  />
+        <logout logout-url="/logout" invalidate-session="true"/>
     </http>
 
     <authentication-manager alias="authenticationManager">
         <authentication-provider user-service-ref="userService" />
     </authentication-manager>
-
-    <global-method-security secured-annotations="enabled" />
 
 </beans:beans>

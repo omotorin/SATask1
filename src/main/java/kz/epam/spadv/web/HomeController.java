@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by Олег on 20.02.2016.
@@ -14,6 +13,11 @@ public class HomeController {
 
     @RequestMapping({"/","/index.htm"})
     public String index(){
+        return "index";
+    }
+
+    @RequestMapping("login")
+    public String login(){
         return "index";
     }
 

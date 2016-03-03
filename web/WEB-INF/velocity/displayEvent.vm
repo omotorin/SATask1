@@ -4,6 +4,7 @@
     <title>Event details</title>
 </head>
 <body>
+#set($bm = $authz.allGranted("BOOKING_MANAGER"))
 #if($deleted)
     Event sucessfully deleted!
 #elseif($event)
@@ -13,7 +14,7 @@
     Ticket price: $event.ticketPrice<br/>
     Rating: $event.rating<br/>
     Auditorium: #if($event.auditorium.name)$event.auditorium.name
-#else
+#elseif($bm)
     <form method="post" action="/spadv/events/id/$event.id/assign">
         <select name="auditoriumId">
             #foreach($auditorium in $auditoriums)
@@ -27,7 +28,7 @@
     <hr/>
     <form name="form1" method="post" action="id/$event.id/delete">
         <a href="/spadv">Home</a>
-        #if(!$deleted)
+        #if(!$deleted and $bm)
             <a href="#" onclick="form1.submit();">Delete event</a>
         #end
     </form>
