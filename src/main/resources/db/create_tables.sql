@@ -65,6 +65,14 @@ CREATE TABLE PUBLIC.wins (
   CONSTRAINT FKW_USER_ID FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
+CREATE TABLE PUBLIC.persistent_logins (
+  username VARCHAR(64) NOT NULL,
+  series VARCHAR(64) NOT NULL,
+  token VARCHAR(64) NOT NULL,
+  last_used TIMESTAMP NOT NULL,
+  PRIMARY KEY (series)
+);
+
 INSERT INTO role(id,name) VALUES (0,'REGISTERED_USER');
 INSERT INTO role(id,name) VALUES (1,'BOOKING_MANAGER');
 

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Created by Олег on 20.02.2016.
@@ -16,9 +17,12 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("login")
-    public String login(){
-        return "index";
+    @RequestMapping(value = "login")
+    public ModelAndView login(@RequestParam(required = false) String error, @RequestParam(required = false) String logout){
+        ModelAndView mav = new ModelAndView("login");
+        mav.addObject("param_error",error);
+        mav.addObject("param_logout",logout);
+        return mav;
     }
 
     @RequestMapping("/uploadUsers")
