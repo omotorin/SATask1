@@ -14,16 +14,16 @@ import javax.xml.bind.annotation.*;
 
 
 /**
- * <p>Java class for usersType complex type.
+ * <p>Java class for rolesType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="usersType">
+ * &lt;complexType name="rolesType">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence maxOccurs="unbounded">
- *         &lt;element name="user" type="{}userType"/>
+ *         &lt;element name="role" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,42 +33,42 @@ import javax.xml.bind.annotation.*;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "usersType", propOrder = {
-    "user"
+@XmlType(name = "rolesType", propOrder = {
+    "role"
 })
-@XmlRootElement(name = "users")
-public class UsersType {
+@XmlRootElement(name = "roles")
+public class RolesType {
 
     @XmlElement(required = true)
-    protected List<UserType> user;
+    protected List<String> role;
 
     /**
-     * Gets the value of the user property.
+     * Gets the value of the role property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the user property.
+     * This is why there is not a <CODE>set</CODE> method for the role property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getUser().add(newItem);
+     *    getRole().add(newItem);
      * </pre>
      * 
      * 
      * <p>
      * Objects of the following type(s) are allowed in the list
-     * {@link UserType }
+     * {@link String }
      * 
      * 
      */
-    public List<UserType> getUser() {
-        if (user == null) {
-            user = new ArrayList<UserType>();
+    public List<String> getRole() {
+        if (role == null) {
+            role = new ArrayList<String>();
         }
-        return this.user;
+        return this.role;
     }
 
 }

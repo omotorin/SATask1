@@ -12,7 +12,7 @@
     Role:
     <select name="role">
         #foreach($role in $roles)
-        <option value="$role">$role.name</option>
+        <option value="$role">$role.desc</option>
         #end
     </select><br/>
     <input type="submit" value="Register"/><br/>

@@ -11,6 +11,13 @@
       <xs:element type="xs:string" name="name"/>
       <xs:element type="xs:string" name="email"/>
       <xs:element type="xs:date" name="birthday"/>
+      <xs:element type="xs:string" name="password"/>
+      <xs:element type="rolesType" name="roles"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="rolesType">
+    <xs:sequence maxOccurs="unbounded">
+      <xs:element type="xs:string" name="role"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

@@ -34,7 +34,7 @@ public class JdbcUserRepository implements UserRepository {
                     "select * from role r\n"+
                     "join roles rs on rs.role_id = r.id\n"+
                     "where user_id=?";
-    private static final String SELECT_ROLE_BY_NAME = "select id from role where name = ?";
+    private static final String SELECT_ROLE_BY_NAME = "select * from role where name = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -77,8 +77,25 @@ public class JdbcUserRepository implements UserRepository {
             } else {
                 user = updatedUser;
             }
+            updateRoles(user.getId(), user.getRoles());
         }
+
         return user;
+    }
+
+    private void updateRoles(long userId, List<Role> roles){
+        jdbcTemplate.update(DELETE_USER_ROLE, userId);
+        for (Role role : roles) {
+            SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("roles");
+            Map<String, Object> args = new HashMap<>();
+            args.put("user_id", userId);
+            args.put("role_id", getRoleByName(role.getName()).getId());
+            insert.execute(args);
+        }
+    }
+
+    private Role getRoleByName(String name){
+        return jdbcTemplate.queryForObject(SELECT_ROLE_BY_NAME, new RoleMapper(), name);
     }
 
     @Override

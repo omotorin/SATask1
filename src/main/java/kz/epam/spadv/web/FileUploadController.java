@@ -1,5 +1,6 @@
 package kz.epam.spadv.web;
 
+import kz.epam.spadv.domain.Role;
 import kz.epam.spadv.domain.User;
 import kz.epam.spadv.service.EventService;
 import kz.epam.spadv.service.Rating;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
+import java.util.ArrayList;
 
 /**
  * Created by Олег on 21.02.2016.
@@ -48,6 +49,13 @@ public class FileUploadController {
                     user.setName(userType.getName());
                     user.setEmail(userType.getEmail());
                     user.setBirthday(userType.getBirthday().toGregorianCalendar().toZonedDateTime().toLocalDate());
+                    user.setPassword(userType.getPassword());
+                    user.setRoles(new ArrayList<>());
+                    for (String roleName : userType.getRoles().getRole()) {
+                        Role role = new Role();
+                        role.setName(roleName);
+                        user.getRoles().add(role);
+                    }
                     userService.register(user);
                 }
                 res = "File successfully upload";

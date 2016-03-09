@@ -7,9 +7,13 @@ public enum Roles {
     REGISTERED_USER("Registered user"),
     BOOKING_MANAGER("Booking manager");
 
-    private String role;
+    private String desc;
 
-    Roles(String role) {
-        this.role = role;
+    Roles(String desc) {
+        this.desc = desc;
+    }
+
+    public String getDesc(){
+        return desc;
     }
 }
