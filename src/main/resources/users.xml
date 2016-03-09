@@ -1,0 +1,12 @@
+<users>
+	<user>
+		<name>root</name>
+		<email>oleg.motorin@gmail.com</email>
+		<birthday>1978-08-12</birthday>
+		<password>$2a$08$l65pz/4gXDQAxgXuVCC.rOzv0MMzlk2JNGFxDwGV2zMsHuAry2Qki</password>
+		<roles>
+			<role>REGISTERED_USER</role>
+			<role>BOOKING_MANAGER</role>
+		</roles>
+	</user>
+</users>
