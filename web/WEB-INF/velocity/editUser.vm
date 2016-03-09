@@ -8,6 +8,13 @@
     Name: <input type="text" name="name"/><br/>
     E-mail: <input type="email" name="email"/><br/>
     Birthday: <input type="date" name="birthday"/><br/>
+    Password: <input type="password" name="password"/><br/>
+    Role:
+    <select name="role">
+        #foreach($role in $roles)
+        <option value="$role">$role.name</option>
+        #end
+    </select><br/>
     <input type="submit" value="Register"/><br/>
 </form>
 </body>

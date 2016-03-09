@@ -21,8 +21,8 @@ import java.util.Map;
  * Created by Oleg_Motorin on 27.10.2015.
  */
 public class JdbcUserRepository implements UserRepository {
-    private static final String UPDATE_USER_BY_ID = "UPDATE user SET name=?, email=?, birthDay=? WHERE id=?";
-    private static final String UPDATE_USER_BY_NAME = "UPDATE user SET name=?, email=?, birthDay=? WHERE name=?";
+    private static final String UPDATE_USER_BY_ID = "UPDATE user SET name=?, email=?, birthDay=?, password=? WHERE id=?";
+    private static final String UPDATE_USER_BY_NAME = "UPDATE user SET name=?, email=?, birthDay=?, password=? WHERE name=?";
     private static final String SELECT_BY_USER_ID = "SELECT * FROM user WHERE id=?";
     private static final String SELECT_BY_USER_EMAIL = "SELECT * FROM user WHERE email=?";
     private static final String SELECT_BY_USER_NAME = "SELECT * FROM user WHERE name=?";
@@ -34,6 +34,7 @@ public class JdbcUserRepository implements UserRepository {
                     "select * from role r\n"+
                     "join roles rs on rs.role_id = r.id\n"+
                     "where user_id=?";
+    private static final String SELECT_ROLE_BY_NAME = "select id from role where name = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -50,6 +51,7 @@ public class JdbcUserRepository implements UserRepository {
                         user.getName(),
                         user.getEmail(),
                         Convert.toTimestamp(user.getBirthday()),
+                        user.getPassword(),
                         user.getId());
                 updatedUser = findById(user.getId());
             } else if (user.getName() != null && !user.getName().isEmpty()) {
@@ -58,6 +60,7 @@ public class JdbcUserRepository implements UserRepository {
                         user.getName(),
                         user.getEmail(),
                         Convert.toTimestamp(user.getBirthday()),
+                        user.getPassword(),
                         user.getName());
                 updatedUser = findByName(user.getName());
             }
@@ -69,6 +72,7 @@ public class JdbcUserRepository implements UserRepository {
                 args.put("name", user.getName());
                 args.put("email", user.getEmail());
                 args.put("birthDay", Convert.toTimestamp(user.getBirthday()));
+                args.put("password", user.getPassword());
                 user.setId(insert.executeAndReturnKey(args).longValue());
             } else {
                 user = updatedUser;

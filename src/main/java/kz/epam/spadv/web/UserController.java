@@ -3,18 +3,20 @@ package kz.epam.spadv.web;
 import kz.epam.spadv.domain.*;
 import kz.epam.spadv.service.BookingService;
 import kz.epam.spadv.service.EventService;
+import kz.epam.spadv.service.Roles;
 import kz.epam.spadv.service.UserService;
 import kz.epam.spadv.service.exception.TicketAlreadyBookedException;
 import kz.epam.spadv.service.exception.TicketWithoutEventException;
 import kz.epam.spadv.service.exception.UserNotRegisteredException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -30,11 +32,16 @@ import java.util.Collection;
     @Autowired
     private BookingService bookingService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PreAuthorize("hasRole('BOOKING_MANAGER')")
     @RequestMapping(method = RequestMethod.GET, params = "new")
-    public String create(Model model) {
-        model.addAttribute(new User());
-        return "editUser";
+    public ModelAndView create() {
+        ModelAndView mav = new ModelAndView("editUser");
+        mav.addObject(new User());
+        mav.addObject("roles", Roles.values());
+        return mav;
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
@@ -43,6 +50,8 @@ import java.util.Collection;
         user.setName(form.getName());
         user.setEmail(form.getEmail());
         user.setBirthday(LocalDate.parse(form.getBirthday()));
+        user.setPassword(passwordEncoder.encode(form.getPassword()));
+        user.setRoles(Arrays.asList(form.getRole()));
         userService.register(user);
         return "redirect:/users/id/" + user.getId();
     }
