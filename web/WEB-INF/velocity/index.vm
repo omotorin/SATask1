@@ -1,7 +1,7 @@
 <html>
 <head><title>Home page</title></head>
 <body>
-<h1>Welcome!</h1>
+<h1>Welcome, $authz.principal!</h1>
 #set($bm = $authz.allGranted("BOOKING_MANAGER"))
 #if($bm)<a href="/spadv/users?new">Add user</a>&nbsp;#end
 <a href="/spadv/findUser">Find user</a>
