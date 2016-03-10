@@ -1,5 +1,6 @@
 package kz.epam.spadv;
 
+import kz.epam.spadv.repository.exception.AccountNotFoundException;
 import kz.epam.spadv.service.BookingService;
 import kz.epam.spadv.service.Rating;
 import kz.epam.spadv.service.exception.*;
@@ -25,7 +26,7 @@ public class App {
     static Logger log = Logger.getLogger(App.class.getName());
 
     public static void main(String[] args) throws ParseException, UserNotRegisteredException,
-            TicketAlreadyBookedException, EventNotAssignedException, TicketWithoutEventException {
+            TicketAlreadyBookedException, EventNotAssignedException, TicketWithoutEventException, NotEnoughMoneyForWithdrawal, AccountNotFoundException {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-with-jdbc.xml");
 
         UserService userService = (UserService) context.getBean("userService");
@@ -61,6 +62,10 @@ public class App {
                 bookingService.bookTicket(user1, ticket);
             } catch (UserNotRegisteredException | TicketAlreadyBookedException | TicketWithoutEventException e) {
                 throw new RuntimeException(e);
+            } catch (AccountNotFoundException e) {
+                e.printStackTrace();
+            } catch (NotEnoughMoneyForWithdrawal notEnoughMoneyForWithdrawal) {
+                notEnoughMoneyForWithdrawal.printStackTrace();
             }
         });
 
@@ -72,6 +77,10 @@ public class App {
             bookingService.bookTicket(user2, ticket);
         } catch (TicketAlreadyBookedException e) {
             log.error(e.getMessage());
+        } catch (AccountNotFoundException e) {
+            e.printStackTrace();
+        } catch (NotEnoughMoneyForWithdrawal notEnoughMoneyForWithdrawal) {
+            notEnoughMoneyForWithdrawal.printStackTrace();
         }
         ticket.setSeat(auditoriumRepository.getSeatByAuditoriumIdAndNumber(auditorium.getId(), 30));
         bookingService.bookTicket(user2, ticket);

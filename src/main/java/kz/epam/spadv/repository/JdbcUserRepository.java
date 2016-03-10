@@ -41,6 +41,9 @@ public class JdbcUserRepository implements UserRepository {
     @Autowired
     private WinsRepository winsRepository;
 
+    @Autowired
+    private UserAccountRepository accountRepository;
+
     @Override
     public User save(User user) {
         if (user != null) {
@@ -101,6 +104,7 @@ public class JdbcUserRepository implements UserRepository {
     @Override
     public void delete(long id) {
         winsRepository.delete(id);
+        accountRepository.delete(id);
         jdbcTemplate.update(DELETE_TICKETS, id);
         jdbcTemplate.update(DELETE_USER_ROLE, id);
         jdbcTemplate.update(DELETE_USER, id);

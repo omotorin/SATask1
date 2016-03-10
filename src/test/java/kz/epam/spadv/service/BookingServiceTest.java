@@ -3,6 +3,8 @@ package kz.epam.spadv.service;
 import kz.epam.spadv.domain.*;
 import kz.epam.spadv.repository.AuditoriumRepository;
 import kz.epam.spadv.repository.TicketRepository;
+import kz.epam.spadv.repository.exception.AccountNotFoundException;
+import kz.epam.spadv.service.exception.NotEnoughMoneyForWithdrawal;
 import kz.epam.spadv.service.exception.TicketAlreadyBookedException;
 import kz.epam.spadv.service.exception.TicketWithoutEventException;
 import kz.epam.spadv.service.exception.UserNotRegisteredException;
@@ -91,7 +93,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void shouldNotBookTicketIfBooked() throws TicketWithoutEventException {
+    public void shouldNotBookTicketIfBooked() throws TicketWithoutEventException, NotEnoughMoneyForWithdrawal, AccountNotFoundException {
         when(userService.getUserByName(user.getName())).thenReturn(user);
         when(ticketRepository.getBookedTickets()).thenReturn(Arrays.asList(ticket));
         doThrow(TicketAlreadyBookedException.class).when(ticketRepository).saveBookedTicket(user, ticket);
@@ -109,7 +111,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void shouldNotBookTicketIfUserNotRegistered() throws TicketWithoutEventException {
+    public void shouldNotBookTicketIfUserNotRegistered() throws TicketWithoutEventException, NotEnoughMoneyForWithdrawal, AccountNotFoundException {
         try {
             service.bookTicket(user, ticket);
             fail();

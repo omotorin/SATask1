@@ -3,12 +3,11 @@ package kz.epam.spadv.service;
 import kz.epam.spadv.domain.*;
 import kz.epam.spadv.repository.AuditoriumRepository;
 import kz.epam.spadv.repository.TicketRepository;
-import kz.epam.spadv.service.exception.EventNotAssignedException;
-import kz.epam.spadv.service.exception.TicketAlreadyBookedException;
-import kz.epam.spadv.service.exception.TicketWithoutEventException;
-import kz.epam.spadv.service.exception.UserNotRegisteredException;
+import kz.epam.spadv.repository.exception.AccountNotFoundException;
+import kz.epam.spadv.service.exception.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -33,6 +32,8 @@ public class BookingServiceImpl implements BookingService {
     private DiscountService discountService;
     @Autowired
     private AuditoriumRepository auditoriumRepository;
+    @Autowired
+    private UserAccountService accountService;
 
     /**
      * returns price for ticket for specified event
@@ -75,8 +76,9 @@ public class BookingServiceImpl implements BookingService {
      * @throws UserNotRegisteredException
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void bookTicket(User user, Ticket ticket) throws UserNotRegisteredException, TicketAlreadyBookedException,
-            TicketWithoutEventException {
+            TicketWithoutEventException, NotEnoughMoneyForWithdrawal, AccountNotFoundException {
         //if users is null or not registered then throw exception
         Optional.ofNullable(user)
                 .flatMap(u -> Optional.ofNullable(userService.getUserByName(u.getName())))
@@ -94,6 +96,8 @@ public class BookingServiceImpl implements BookingService {
                 );
         if (notBooked) {
             ticketRepository.saveBookedTicket(user, ticket);
+            accountService.withdraw(user.getId(), ticket.getPrice());
+
             log.info(String.format("User <%s> booked ticket with seat number %d for event <%s>",
                     user.getName(),
                     ticket.getSeat().getNumber(),

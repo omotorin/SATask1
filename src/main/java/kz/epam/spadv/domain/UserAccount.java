@@ -5,7 +5,7 @@ package kz.epam.spadv.domain;
  */
 public class UserAccount {
     private Long id;
-    private User user;
+    private Long userId;
     private float amount;
 
     public Long getId() {
@@ -16,12 +16,12 @@ public class UserAccount {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public float getAmount() {

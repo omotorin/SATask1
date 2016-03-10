@@ -1,10 +1,12 @@
 package kz.epam.spadv.web;
 
 import kz.epam.spadv.domain.*;
+import kz.epam.spadv.repository.exception.AccountNotFoundException;
 import kz.epam.spadv.service.BookingService;
 import kz.epam.spadv.service.EventService;
 import kz.epam.spadv.service.Roles;
 import kz.epam.spadv.service.UserService;
+import kz.epam.spadv.service.exception.NotEnoughMoneyForWithdrawal;
 import kz.epam.spadv.service.exception.TicketAlreadyBookedException;
 import kz.epam.spadv.service.exception.TicketWithoutEventException;
 import kz.epam.spadv.service.exception.UserNotRegisteredException;
@@ -115,7 +117,7 @@ import java.util.Collection;
     @RequestMapping(value = "id/{userId}/book", method = RequestMethod.POST)
     public ModelAndView book(@PathVariable long userId, @RequestParam Long eventId,
                              @RequestParam(required = false) Long seatNumber
-    ) throws UserNotRegisteredException, TicketAlreadyBookedException, TicketWithoutEventException {
+    ) throws UserNotRegisteredException, TicketAlreadyBookedException, TicketWithoutEventException, NotEnoughMoneyForWithdrawal, AccountNotFoundException {
         if(eventId!=null && seatNumber!=null) {
             Event event = eventService.getById(eventId);
             Ticket ticket = new Ticket();
