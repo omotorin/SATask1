@@ -73,6 +73,13 @@ CREATE TABLE PUBLIC.persistent_logins (
   PRIMARY KEY (series)
 );
 
+CREATE TABLE PUBLIC.account(
+  id      INT PRIMARY KEY NOT NULL IDENTITY,
+  user_id INT NOT NULL,
+  amount  FLOAT    DEFAULT NULL,
+  CONSTRAINT FKA_USER_ID FOREIGN KEY (user_id) REFERENCES user(id)
+);
+
 INSERT INTO role(id,name) VALUES (0,'REGISTERED_USER');
 INSERT INTO role(id,name) VALUES (1,'BOOKING_MANAGER');
 
