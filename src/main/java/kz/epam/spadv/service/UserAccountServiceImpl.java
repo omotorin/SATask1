@@ -28,6 +28,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
+    public UserAccount getAccountByUserId(long userId) throws AccountNotFoundException {
+        return accountRepository.getAccountByUserId(userId);
+    }
+
+    @Override
     public void withdraw(long userId, float amountWithdraw) throws NotEnoughMoneyForWithdrawal, AccountNotFoundException {
         UserAccount account = accountRepository.getAccountByUserId(userId);
         if (account.getAmount() - amountWithdraw < 0) {
@@ -38,7 +43,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public void deposit(long userId, float amountDeposit) throws AccountNotFoundException {
+    public void refill(long userId, float amountDeposit) throws AccountNotFoundException {
         UserAccount account = accountRepository.getAccountByUserId(userId);
         account.setAmount(amountDeposit);
         accountRepository.save(account);

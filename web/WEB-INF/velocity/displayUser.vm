@@ -9,6 +9,15 @@
 Name: $user.name<br/>
 E-mail: $user.email<br/>
 Birthday: $user.birthday<br/>
+#if($authz.allGranted("BOOKING_MANAGER"))
+<form method="post" action="/spadv/users/id/$user.id/refill">
+    Amount: #if($account) <input type="number" name="amount" value="$account.amount">
+            <input type="submit" name="refill" value="Refill">
+    #else <input type="submit" name="create" value="Create account"> #end
+</form>
+#else
+    Amount: #if($account) $account.amount #else No account #end
+#end
 <hr/>
 <a href="/spadv">Home</a>
     #if($authz.allGranted("BOOKING_MANAGER"))

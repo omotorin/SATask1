@@ -11,6 +11,9 @@ import kz.epam.spadv.service.exception.NotEnoughMoneyForWithdrawal;
 public interface UserAccountService {
     UserAccount create(long userId) throws AccountAlreadyExistException;
     boolean checkAmount(long accountId);
+
+    UserAccount getAccountByUserId(long userId) throws AccountNotFoundException;
+
     void withdraw(long userId, float amountWithdraw) throws NotEnoughMoneyForWithdrawal, AccountNotFoundException;
-    void deposit(long userId, float amountDeposit) throws AccountNotFoundException;
+    void refill(long userId, float amountDeposit) throws AccountNotFoundException;
 }

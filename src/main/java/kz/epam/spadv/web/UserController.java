@@ -1,11 +1,9 @@
 package kz.epam.spadv.web;
 
 import kz.epam.spadv.domain.*;
+import kz.epam.spadv.repository.exception.AccountAlreadyExistException;
 import kz.epam.spadv.repository.exception.AccountNotFoundException;
-import kz.epam.spadv.service.BookingService;
-import kz.epam.spadv.service.EventService;
-import kz.epam.spadv.service.Roles;
-import kz.epam.spadv.service.UserService;
+import kz.epam.spadv.service.*;
 import kz.epam.spadv.service.exception.NotEnoughMoneyForWithdrawal;
 import kz.epam.spadv.service.exception.TicketAlreadyBookedException;
 import kz.epam.spadv.service.exception.TicketWithoutEventException;
@@ -35,6 +33,9 @@ import java.util.Collection;
     private BookingService bookingService;
 
     @Autowired
+    private UserAccountService accountService;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PreAuthorize("hasRole('BOOKING_MANAGER')")
@@ -58,6 +59,26 @@ import java.util.Collection;
         return "redirect:/users/id/" + user.getId();
     }
 
+    @RequestMapping(method = RequestMethod.POST, value = "/id/{userId}/refill")
+    public ModelAndView refill(@PathVariable long userId,
+            @RequestParam(required = false) Float amount,
+            @RequestParam(required = false) String refill) throws AccountNotFoundException,
+            AccountAlreadyExistException {
+        ModelAndView mav = new ModelAndView("displayUser");
+        UserAccount account;
+        if(refill!=null){
+            account = accountService.getAccountByUserId(userId);
+        } else {
+            account = accountService.create(userId);
+        }
+        float amountRefill = amount !=null ? amount : 0;
+        account.setAmount(amountRefill);
+        accountService.refill(userId, amountRefill);
+        mav.addObject("user", userService.getById(userId));
+        mav.addObject("account", account);
+        return mav;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/id/{userId}/delete")
     public @ResponseBody String delete(
             @PathVariable long userId) {
@@ -74,13 +95,22 @@ import java.util.Collection;
     public ModelAndView getById(@PathVariable long userId) {
         ModelAndView mav = new ModelAndView("displayUser");
         mav.addObject("user", userService.getById(userId));
+        try {
+            mav.addObject("account", accountService.getAccountByUserId(userId));
+        } catch (AccountNotFoundException ignored) {}
         return mav;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/email/{userEmail}")
     public ModelAndView getByEmail(@PathVariable String userEmail) {
         ModelAndView mav = new ModelAndView("displayUser");
-        mav.addObject("user", userService.getUserByEmail(userEmail));
+        User user = userService.getUserByEmail(userEmail);
+        if(user!=null) {
+            mav.addObject("user", user);
+            try {
+                mav.addObject("account", accountService.getAccountByUserId(user.getId()));
+            } catch (AccountNotFoundException ignored) {}
+        }
         return mav;
     }
 
@@ -92,6 +122,9 @@ import java.util.Collection;
             throw new UserNotRegisteredException();
         }
         mav.addObject("user", user);
+        try {
+            mav.addObject("account", accountService.getAccountByUserId(user.getId()));
+        } catch (AccountNotFoundException ignored) {}
         return mav;
     }
 

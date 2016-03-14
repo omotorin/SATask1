@@ -8,7 +8,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsertOperations;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -47,15 +46,17 @@ public class JdbcUserAccountRepository implements UserAccountRepository {
         UserAccount account = new UserAccount();
         account.setUserId(userId);
 
-        if (jdbcTemplate.queryForObject(FIND_ACCOUNT_ID_BY_USER_ID, Long.TYPE, userId) != null) {
-            throw new AccountAlreadyExistException();
+        try {
+            if (jdbcTemplate.queryForObject(FIND_ACCOUNT_ID_BY_USER_ID, Long.TYPE, userId) != null) {
+                throw new AccountAlreadyExistException();
+            }
+        } catch (EmptyResultDataAccessException ex) {
+            SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("account");
+            Map<String, Object> params = new HashMap<>();
+            insert.setGeneratedKeyName("id");
+            params.put("user_id", userId);
+            account.setId(insert.executeAndReturnKey(params).longValue());
         }
-
-        SimpleJdbcInsertOperations insert = new SimpleJdbcInsert(jdbcTemplate).withTableName("account");
-        Map<String, Object> params = new HashMap<>();
-        params.put("user_id", userId);
-        account.setId(insert.executeAndReturnKey(params).longValue());
-
         return account;
     }
 
