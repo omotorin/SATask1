@@ -162,7 +162,9 @@ import java.util.Collection;
             ticket.setSeat(s);
             User user = userService.getById(userId);
             bookingService.bookTicket(user, ticket);
-            return new ModelAndView("displayUser").addObject("user", user);
+            return new ModelAndView("displayUser")
+                    .addObject("user", user)
+                    .addObject("account", accountService.getAccountByUserId(user.getId()));
         }
         ModelAndView mav = new ModelAndView("bookTicket");
         mav.addObject("user", userId);

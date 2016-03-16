@@ -1,11 +1,20 @@
 package kz.epam.spadv.domain;
 
+import kz.epam.spadv.xml.LocalDateAdapter;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDate;
 import java.util.List;
 
 /**
  * Created by Oleg_Motorin on 21.10.2015.
  */
+@XmlRootElement(name = "user")
+@XmlType(propOrder = {"id","name","email","birthday","password","roles"})
 public class User {
 
     private Long id;
@@ -40,6 +49,7 @@ public class User {
 
     }
 
+    @XmlElement(required = true)
     public Long getId() {
         return id;
     }
@@ -48,6 +58,7 @@ public class User {
         this.id = id;
     }
 
+    @XmlElement(required = true)
     public String getName() {
         return name;
     }
@@ -56,6 +67,7 @@ public class User {
         this.name = name;
     }
 
+    @XmlElement(required = true)
     public String getEmail() {
         return email;
     }
@@ -64,6 +76,9 @@ public class User {
         this.email = email;
     }
 
+    @XmlElement(required = true)
+    @XmlJavaTypeAdapter(value = LocalDateAdapter.class)
+    @XmlSchemaType(name = "date")
     public LocalDate getBirthday() {
         return birthday;
     }
@@ -72,6 +87,7 @@ public class User {
         this.birthday = birthday;
     }
 
+    @XmlElement(required = true)
     public String getPassword() {
         return password;
     }
@@ -80,6 +96,7 @@ public class User {
         this.password = password;
     }
 
+    @XmlElement(required = true)
     public List<Role> getRoles() {
         return roles;
     }

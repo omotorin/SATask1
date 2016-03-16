@@ -1,12 +1,20 @@
 package kz.epam.spadv.domain;
 
 import kz.epam.spadv.service.Rating;
+import kz.epam.spadv.xml.LocalDateTimeAdapter;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
 /**
  * Created by Oleg_Motorin on 21.10.2015.
  */
+@XmlRootElement(name = "event")
+@XmlType(propOrder = {"id","name","dateTime","ticketPrice","rating","auditorium"})
 public class Event {
     private Long id;
     private String name;
@@ -14,6 +22,8 @@ public class Event {
     private float ticketPrice;
     private Rating rating;
     private Auditorium auditorium;
+
+    public Event(){}
 
     public Event(long id, String name, LocalDateTime dateTime, float ticketPrice, Rating rating) {
         this.id = id;
@@ -30,6 +40,7 @@ public class Event {
         this.rating = rating;
     }
 
+    @XmlElement(required = true)
     public Long getId() {
         return id;
     }
@@ -38,6 +49,7 @@ public class Event {
         this.id = id;
     }
 
+    @XmlElement(required = true)
     public String getName() {
         return name;
     }
@@ -46,6 +58,9 @@ public class Event {
         this.name = name;
     }
 
+    @XmlElement(required = true)
+    @XmlSchemaType(name = "date")
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -54,6 +69,7 @@ public class Event {
         this.dateTime = dateTime;
     }
 
+    @XmlElement(required = true)
     public float getTicketPrice() {
         return ticketPrice;
     }
@@ -62,6 +78,7 @@ public class Event {
         this.ticketPrice = ticketPrice;
     }
 
+    @XmlElement(required = true)
     public Rating getRating() {
         return rating;
     }
@@ -70,6 +87,7 @@ public class Event {
         this.rating = rating;
     }
 
+    @XmlElement(required = true)
     public Auditorium getAuditorium() {
         return auditorium;
     }
